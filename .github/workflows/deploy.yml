@@ -30,9 +30,8 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker tag my-spring-app myrepo/my-spring-app:latest
-          docker push myrepo/my-spring-app:latest
-
+          docker tag my-spring-app ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
       - name: Deploy to Server via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
