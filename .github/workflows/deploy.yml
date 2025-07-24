@@ -13,6 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+
+      - name: Dump workspace structure         # ← 임시 디버그 스텝
+        run: |
+          echo "WORKSPACE = $GITHUB_WORKSPACE"
+          ls -R .
+
+
+
+
+
+
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
