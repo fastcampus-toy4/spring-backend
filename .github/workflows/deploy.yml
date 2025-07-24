@@ -49,4 +49,7 @@ jobs:
             sudo docker pull $IMAGE_NAME
             sudo docker stop spring-container || true
             sudo docker rm spring-container || true
-            sudo docker run -d --name spring-container -p 8080:8080 $IMAGE_NAME
+            sudo docker run -d \
+              --name spring-container \
+              -p 8080:8080 \
+              ${{ env.IMAGE_NAME }}
