@@ -20,7 +20,7 @@ jobs:
           gradle-version: '8.2.1'
 
       - name: Build with system Gradle
-        run: gradle build
+        run: gradle build -p project/spring-boot
 
 
       - name: Dump workspace structure         # ← 임시 디버그 스텝
