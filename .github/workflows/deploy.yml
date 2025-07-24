@@ -46,7 +46,7 @@ jobs:
             echo "${{ secrets.DOCKER_PASSWORD }}" \
               | sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-            sudo docker pull $IMAGE_NAME
+            sudo docker pull ${{ env.IMAGE_NAME }}
             sudo docker stop spring-container || true
             sudo docker rm spring-container || true
             sudo docker run -d \
