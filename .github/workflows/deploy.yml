@@ -7,7 +7,6 @@ on:
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
 
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -42,13 +41,17 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # (이미지 private일 경우 필요)
+            # Docker Hub 로그인
             echo "${{ secrets.DOCKER_PASSWORD }}" \
               | sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
+            # 기존 컨테이너 강제 삭제(포트 해제)
+            sudo docker rm -f spring-container || true
+
+            # 최신 이미지 가져오기
             sudo docker pull ${{ env.IMAGE_NAME }}
-            sudo docker stop spring-container || true
-            sudo docker rm spring-container || true
+
+            # 새 컨테이너 실행
             sudo docker run -d \
               --name spring-container \
               -p 8080:8080 \
