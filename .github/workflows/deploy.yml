@@ -20,9 +20,11 @@ jobs:
           java-version: '21'
 
       - name: Build with Gradle
+        working-directory: spring-boot
         run: ./gradlew build
 
       - name: Build Docker image
+        working-directory: spring-boot
         run: docker build -t my-spring-app .
 
       - name: Login to Docker Registry
