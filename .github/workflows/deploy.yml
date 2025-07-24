@@ -32,6 +32,7 @@ jobs:
         run: |
           docker tag my-spring-app ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
+
       - name: Deploy to Server via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -39,7 +40,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull myrepo/my-spring-app:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/toy4-spring:latest
             docker stop spring-container || true
             docker rm spring-container || true
-            docker run -d --name spring-container -p 8080:8080 myrepo/my-spring-app:latest
+            docker run -d --name spring-container -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/toy4-spring:latest
