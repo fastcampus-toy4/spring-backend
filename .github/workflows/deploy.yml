@@ -46,13 +46,13 @@ jobs:
               | sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
             # 기존 컨테이너 강제 삭제(포트 해제)
-            sudo docker rm -f spring-container || true
+            sudo docker rm -f spring-boot-app || true
 
             # 최신 이미지 가져오기
             sudo docker pull ${{ env.IMAGE_NAME }}
 
             # 새 컨테이너 실행
             sudo docker run -d \
-              --name spring-container \
+              --name spring-boot-app \
               -p 8080:8080 \
               ${{ env.IMAGE_NAME }}
