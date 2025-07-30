@@ -85,4 +85,8 @@ public class AuthController {
         return ResponseEntity.ok("회원가입 완료");
     }
 
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("pong");
+    }
 }
