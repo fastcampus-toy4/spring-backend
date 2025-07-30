@@ -4,6 +4,7 @@ import com.toy4.jeommechu.dto.*;
 import com.toy4.jeommechu.model.User;
 import com.toy4.jeommechu.repository.UserRepository;
 import com.toy4.jeommechu.security.JwtUtil;
+import com.toy4.jeommechu.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,15 @@ public class AuthController {
     private final UserRepository userRepo;
     private final PasswordEncoder encoder;
     private final JwtUtil jwtUtil;
+    private final AuthService authService;
 
     public AuthController(
+            AuthService authService,
             UserRepository userRepo,
             PasswordEncoder encoder,
             JwtUtil jwtUtil
     ) {
+        this.authService = authService;
         this.userRepo = userRepo;
         this.encoder  = encoder;
         this.jwtUtil  = jwtUtil;
@@ -33,11 +37,6 @@ public class AuthController {
             @RequestBody AuthRequest req,
             HttpServletResponse resp
     ) {
-        // AuthService.authenticateAndForward 내부에서
-        //  1) DB 조회 & 검증
-        //  2) JWT 생성
-        //  3) FastAPI 호출
-        //  4) JWT 반환
         String token = authService.authenticateAndForward(req.getEmail(), req.getPassword());
 
 //    @PostMapping("/login")
@@ -65,7 +64,6 @@ public class AuthController {
 //        }
 
         // 3) JWT 생성
-        String token = jwtUtil.generateToken(user.getEmail());
 
         // 4) HttpOnly 쿠키에 담기
         ResponseCookie cookie = ResponseCookie.from("JWT", token)
