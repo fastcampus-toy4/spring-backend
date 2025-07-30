@@ -65,7 +65,7 @@ public class AuthService implements UserDetailsService {
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
         ResponseEntity<String> resp = restTemplate.exchange(
-                fastapiBaseUrl + "/api/your-endpoint",
+                fastapiBaseUrl + "/api/auth/login",
                 HttpMethod.POST,
                 request,
                 String.class
