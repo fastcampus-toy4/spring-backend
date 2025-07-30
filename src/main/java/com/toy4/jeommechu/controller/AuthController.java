@@ -28,30 +28,41 @@ public class AuthController {
         this.encoder  = encoder;
         this.jwtUtil  = jwtUtil;
     }
-
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(
             @RequestBody AuthRequest req,
             HttpServletResponse resp
     ) {
-        // 1) DB에서 유저 조회
+        // AuthService.authenticateAndForward 내부에서
+        //  1) DB 조회 & 검증
+        //  2) JWT 생성
+        //  3) FastAPI 호출
+        //  4) JWT 반환
+        String token = authService.authenticateAndForward(req.getEmail(), req.getPassword());
 
-        System.out.println("[DEBUG] req email=" + req.getEmail() + ", raw pw=" + req.getPassword());
-
-        Optional<User> opt = userRepo.findByEmail(req.getEmail());
-        System.out.println("[DEBUG] user found? " + opt.isPresent());
-
-        if (opt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        User user = opt.get();
-        System.out.println("[DEBUG] stored pw hash=" + user.getPassword());
-        System.out.println("[DEBUG] matches? " + encoder.matches(req.getPassword(), user.getPassword()));
-
-        if (!encoder.matches(req.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+//    @PostMapping("/login")
+//    public ResponseEntity<AuthResponse> login(
+//            @RequestBody AuthRequest req,
+//            HttpServletResponse resp
+//    ) {
+//        // 1) DB에서 유저 조회
+//
+//        System.out.println("[DEBUG] req email=" + req.getEmail() + ", raw pw=" + req.getPassword());
+//
+//        Optional<User> opt = userRepo.findByEmail(req.getEmail());
+//        System.out.println("[DEBUG] user found? " + opt.isPresent());
+//
+//        if (opt.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//
+//        User user = opt.get();
+//        System.out.println("[DEBUG] stored pw hash=" + user.getPassword());
+//        System.out.println("[DEBUG] matches? " + encoder.matches(req.getPassword(), user.getPassword()));
+//
+//        if (!encoder.matches(req.getPassword(), user.getPassword())) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
 
         // 3) JWT 생성
         String token = jwtUtil.generateToken(user.getEmail());

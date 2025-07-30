@@ -64,17 +64,19 @@ public class AuthService implements UserDetailsService {
         headers.setBearerAuth(jwt);
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
+        String url = fastapiBaseUrl + "/api/auth/login";  // FastAPI 매핑 경로
+        System.out.println("[DEBUG] Calling FastAPI at: " + url);
         ResponseEntity<String> resp = restTemplate.exchange(
-                fastapiBaseUrl + "/api/auth/login",
-                HttpMethod.POST,
-                request,
-                String.class
+                url, HttpMethod.POST, request, String.class
         );
+        System.out.println("[DEBUG] FastAPI status: " + resp.getStatusCode());
+        System.out.println("[DEBUG] FastAPI body:   " + resp.getBody());
+
         if (!resp.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException("FastAPI 연동 실패: " + resp.getStatusCode());
         }
 
-        // 4) 최종적으로 Spring 클라이언트에 JWT 반환
+        // 4) JWT 반환
         return jwt;
     }
 }
