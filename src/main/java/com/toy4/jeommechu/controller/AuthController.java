@@ -65,7 +65,7 @@ public class AuthController {
         resp.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         // ─── 여기서 FastAPI 로 토큰 전달 ───
-        authService.forwardToken(token);
+//        authService.forwardToken(token);
         // ────────────────────────────────
 
         // 4) 토큰 리턴
