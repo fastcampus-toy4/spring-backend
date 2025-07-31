@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://react-frontend:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://react-frontend:80", allowCredentials = "true")
 public class AuthController {
 
     private final UserRepository userRepo;
