@@ -11,7 +11,10 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/api/**")
                 .allowedOrigins("http://react-frontend:80",
                         "http://localhost:80",
-                        "http://:155.248.175.96:3000")
+                        "http://155.248.175.96:3000",
+                        "http://155.248.175.96:8000",
+                        "http://155.248.175.96:9000"
+                        )
                 .allowCredentials(true)
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
