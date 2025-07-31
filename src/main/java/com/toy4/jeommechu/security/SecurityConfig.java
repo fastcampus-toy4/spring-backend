@@ -37,8 +37,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://react-frontend:80",
-                "http://localhost:80",
+        config.setAllowedOrigins(List.of(
                 "http://155.248.175.96:3000",
                 "http://155.248.175.96:8000",
                 "http://155.248.175.96:9000"));
